@@ -1,0 +1,2058 @@
+/* Direction (from the generated mockups): a luxurious private card club at night. Emerald felt,
+   walnut and brass, ivory tiles, gold gradient pill buttons and gold serif titles, translucent dark
+   panels with a thin gold trim over a softly lit club background. Valentina is the hostess. */
+:root {
+  --night: #050d09;
+  --felt-900: #0b2318;
+  --felt-800: #0f2e22;
+  --felt-700: #143a2b;
+  --felt-600: #1a4835;
+  --panel: rgb(7 22 15 / 0.8);
+  --panel-strong: rgb(9 28 19 / 0.92);
+  --gold-1: #fbe6a6;
+  --gold-2: #e2b452;
+  --gold-3: #b9832b;
+  --gold-4: #7a5418;
+  --gold-line: rgb(226 180 82 / 0.5);
+  --gold-glow: rgb(226 180 82 / 0.35);
+  --gold-grad: linear-gradient(180deg, var(--gold-1) 0%, var(--gold-2) 48%, var(--gold-3) 100%);
+  --gold-text: linear-gradient(180deg, #fff2c4 0%, var(--gold-2) 55%, var(--gold-3) 100%);
+
+  --ink: #f6f1e3;
+  --ink-muted: #c9d4cc;
+  --ink-faint: #8fa69a;
+  --accent: var(--gold-2);
+  --accent-ink: #1c1406;
+  --accent-soft: rgb(226 180 82 / 0.16);
+  --danger: #e58a74;
+  --danger-ink: #2a120c;
+  --danger-soft: #ffd9cf;
+  --bronze: rgb(190 120 72 / 0.6);
+  --rose: #f0a79c;
+  --tile-pip: #141311;
+  --shine: rgb(255 255 255 / 0.55);
+  --paper: #f3ead3;
+  --paper-ink: #2b2115;
+
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --tap: 52px;
+
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--night);
+}
+/* No background on body: it would paint over the club picture on body::before. */
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.4;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The club, softly lit, behind every screen; screens with their own artwork cover it. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgb(4 12 8 / 0.38) 0%, rgb(4 12 8 / 0.66) 50%, rgb(4 12 8 / 0.9) 100%),
+    url("./assets/bg-club-portrait.webp") center / cover no-repeat;
+}
+@media (min-aspect-ratio: 1/1) {
+  body::before {
+    background:
+      linear-gradient(180deg, rgb(4 12 8 / 0.42) 0%, rgb(4 12 8 / 0.8) 100%),
+      url("./assets/bg-club-landscape.webp") center / cover no-repeat;
+  }
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 3px solid var(--gold-1);
+  outline-offset: 2px;
+}
+
+.muted {
+  color: var(--ink-muted);
+}
+
+/* Gold serif titles, as in the mockups. */
+.section-title,
+.account-title,
+.lobby-host-name,
+.room-title,
+.dialog-title,
+.table-code {
+  background: var(--gold-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: var(--font-display);
+  font-variant-numeric: lining-nums;
+  font-weight: 700;
+}
+
+.panel {
+  border: 1px solid var(--gold-line);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 12px 32px rgb(0 0 0 / 0.45);
+  backdrop-filter: blur(6px);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--tap);
+  padding: 0 var(--space-6);
+  border: 1.5px solid var(--gold-2);
+  border-radius: 999px;
+  background: rgb(7 22 15 / 0.55);
+  color: var(--gold-1);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 150ms ease, filter 150ms ease, box-shadow 150ms ease;
+}
+.btn:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn-primary {
+  border-color: var(--gold-1);
+  background: var(--gold-grad);
+  color: var(--accent-ink);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 -2px 0 rgb(0 0 0 / 0.18), 0 6px 18px var(--gold-glow);
+}
+.btn-ghost {
+  background: rgb(7 22 15 / 0.45);
+}
+.btn-danger {
+  border-color: var(--danger);
+  background: transparent;
+  color: var(--danger);
+}
+.btn-wide {
+  width: 100%;
+}
+.btn-text {
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  border: none;
+  background: none;
+  color: var(--ink-muted);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-text:hover {
+  color: var(--gold-1);
+}
+.link-back {
+  min-height: 44px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--gold-1);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.link-back::before {
+  content: "\2190";
+  margin-right: var(--space-2);
+}
+
+/* ---------- Language toggle ---------- */
+.lang-toggle {
+  display: inline-flex;
+  flex: none;
+  padding: 2px;
+  border: 1px solid var(--gold-line);
+  border-radius: 999px;
+  background: rgb(5 13 9 / 0.75);
+}
+.lang-option {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-faint);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.lang-option[aria-pressed="true"] {
+  background: var(--gold-grad);
+  color: var(--accent-ink);
+}
+.lang-toggle-floating {
+  position: absolute;
+  top: calc(var(--space-3) + env(safe-area-inset-top));
+  right: var(--space-3);
+  z-index: 2;
+}
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.top-row-end {
+  justify-content: flex-end;
+}
+
+/* ---------- Forms ---------- */
+.field {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.field input {
+  min-height: var(--tap);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--gold-line);
+  border-radius: var(--radius);
+  background: rgb(3 10 6 / 0.7);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+}
+.field input:focus {
+  border-color: var(--gold-1);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+.field input::placeholder {
+  color: var(--ink-faint);
+}
+.field input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+.field-error {
+  color: var(--danger);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.check label {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+}
+.check input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--gold-2);
+}
+.field input.code-input {
+  font-size: 1.375rem;
+  letter-spacing: 0.35em;
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+}
+
+/* ---------- Page columns ---------- */
+.account,
+.lobby,
+.private,
+.waiting {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 480px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4) calc(var(--space-8) + env(safe-area-inset-bottom));
+}
+.section-title {
+  font-size: 1.875rem;
+}
+.screen-logo {
+  align-self: center;
+  width: min(240px, 66%);
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 0.5));
+}
+.splash {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: var(--space-6);
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+/* ---------- Hostess speech bubble ---------- */
+.host-bubble {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.host-bubble-text {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--gold-line);
+  border-radius: 16px 16px 16px 4px;
+  background: var(--panel-strong);
+  color: var(--ink);
+  font-size: 0.9375rem;
+  line-height: 1.3;
+}
+
+/* ---------- Welcome ---------- */
+.landing {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--felt-900);
+}
+/* Full width, never cropped at the sides (the logo sits at the left edge); felt continues below. */
+.landing-hero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+.landing-actions {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-5) calc(var(--space-6) + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, transparent 0%, rgb(5 18 12 / 0.55) 30%, rgb(5 18 12 / 0.85) 100%);
+}
+/* The artwork fills the width; the text and buttons keep a phone-sized column on wider stacked screens. */
+.landing-actions > * {
+  align-self: center;
+  width: 100%;
+  max-width: 480px;
+}
+.landing-tagline {
+  margin-bottom: var(--space-2);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-style: italic;
+  text-align: center;
+  text-shadow: 0 2px 8px rgb(0 0 0 / 0.7);
+}
+/* Landscape-only pieces (see "Landscape screens" below). */
+.landing-logo,
+.account-host {
+  display: none;
+}
+.waiting-side,
+.waiting-main {
+  display: contents;
+}
+.landing-fine {
+  color: var(--ink-faint);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+/* ---------- Sign up / sign in ---------- */
+.account-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+.account-title {
+  font-size: 1.625rem;
+}
+
+/* ---------- Lobby ---------- */
+.lobby-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.lobby-host {
+  flex: 1;
+  min-width: 0;
+}
+.lobby-host-name {
+  font-size: 1.625rem;
+  line-height: 1.1;
+}
+.lobby-host-role {
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+}
+.lobby-player {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-1);
+  border: 1px solid var(--gold-line);
+  border-radius: 999px;
+  background: var(--panel);
+}
+.lobby-hello {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rooms {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.room {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44% minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 116px;
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+  border: 1px solid var(--gold-line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgb(20 58 43 / 0.9), rgb(7 22 15 / 0.92));
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.4);
+  cursor: pointer;
+}
+button.room:hover:not(:disabled) {
+  border-color: var(--gold-2);
+}
+.room:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.room-live {
+  border: 2px solid var(--gold-2);
+  box-shadow: inset 0 0 0 1px rgb(251 230 166 / 0.35), 0 0 24px var(--gold-glow), 0 8px 24px rgb(0 0 0 / 0.45);
+}
+.room-art {
+  width: 100%;
+  max-height: 100px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.5));
+}
+.room-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.room-title {
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+.room-detail {
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+}
+.room-cta {
+  justify-self: start;
+  margin-top: var(--space-1);
+  padding: 4px var(--space-4);
+  border-radius: 999px;
+  background: var(--gold-grad);
+  color: var(--accent-ink);
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.room-chevron {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--gold-2);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Private room ---------- */
+.private-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+.block-title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+/* ---------- Waiting ---------- */
+.waiting {
+  align-items: stretch;
+  text-align: center;
+}
+.waiting-host {
+  align-self: center;
+  width: auto;
+  max-width: 100%;
+  max-height: 34dvh;
+  mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
+}
+/* You, the VS emblem, and a face-down tile for the rival still to come. */
+.versus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: calc(-1 * var(--space-6));
+}
+.versus-emblem {
+  width: 76px;
+  height: 76px;
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 0.6));
+}
+.versus-unknown {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border: 2px dashed var(--gold-line);
+  border-radius: 50%;
+  background: var(--panel);
+}
+.versus-shuffle {
+  width: 20px;
+  height: 40px;
+  animation: shuffle 1.2s ease-in-out infinite;
+}
+@keyframes shuffle {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+}
+.code-box {
+  padding: var(--space-3) var(--space-4);
+}
+.table-code {
+  font-size: clamp(2.25rem, 12vw, 3rem);
+  letter-spacing: 0.18em;
+  /* Letter spacing also trails the last letter; the indent balances it so the code is centered. */
+  text-indent: 0.18em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Avatars ---------- */
+.avatar {
+  display: block;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: box-shadow 150ms ease, filter 150ms ease;
+}
+.avatar-sm {
+  width: 40px;
+  height: 40px;
+}
+.avatar-md {
+  width: 48px;
+  height: 48px;
+}
+.avatar-lg {
+  width: 68px;
+  height: 68px;
+}
+.avatar-active {
+  box-shadow: 0 0 0 3px var(--gold-1), 0 0 18px var(--gold-glow);
+}
+.avatar-offline {
+  filter: grayscale(0.9) brightness(0.7);
+}
+
+/* ---------- Table screen (landscape) ----------
+   The felt is the whole screen. Three rows float on it: the rival and the corner controls on top, the
+   board in the middle (Valentina's hint over its bottom-left), the player's plate, hand and action below. */
+/* The table felt: the game table, and the result screen that opens over it. */
+.table-screen,
+.dialog-full .dialog-panel {
+  background:
+    radial-gradient(ellipse at 50% 45%, transparent 45%, rgb(0 0 0 / 0.55) 100%),
+    url("./assets/felt.webp") center / cover;
+}
+.table-screen {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+}
+.table-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  height: 100%;
+  padding:
+    calc(var(--space-2) + env(safe-area-inset-top))
+    calc(var(--space-4) + env(safe-area-inset-right))
+    calc(var(--space-2) + env(safe-area-inset-bottom))
+    calc(var(--space-4) + env(safe-area-inset-left));
+}
+/* Leave | the rival, centered | language and the pile. */
+.table-top {
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-3);
+}
+.table-leave {
+  justify-self: start;
+}
+.opponents {
+  display: flex;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.table-corner {
+  position: relative;
+  justify-self: end;
+}
+/* ---------- Seat plates on the artwork: TU (gold, emerald) vs RIVAL (bronze, burgundy) ----------
+   Source images are 220 px tall. The left slice holds the round avatar slot, the middle stretches, the
+   right slice is the end cap. Slot centre/radius and slices were measured from the images. */
+.seat-plate {
+  --plate-h: 76px;
+  --img-h: 220;
+  --k: calc(var(--plate-h) / var(--img-h));
+  --slice-l: 250;
+  --slice-r: 80;
+  --slot-x: 143;
+  --slot-y: 110;
+  --slot-r: 69;
+  /* Velvet bar, top and bottom edges in the source image; the text sits on it. */
+  --bar-top: 48;
+  --bar-bottom: 184;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  height: var(--plate-h);
+  padding: calc(var(--k) * var(--bar-top)) 2px calc(var(--k) * (var(--img-h) - var(--bar-bottom))) 4px;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 0 calc(var(--k) * var(--slice-r)) 0 calc(var(--k) * var(--slice-l));
+  border-image-source: url("./assets/plate-me.webp");
+  border-image-slice: 0 var(--slice-r) 0 var(--slice-l) fill;
+  border-image-width: 0 calc(var(--k) * var(--slice-r)) 0 calc(var(--k) * var(--slice-l));
+  border-image-repeat: stretch;
+  transition: filter 150ms ease;
+}
+.seat-plate-rival {
+  --slice-r: 68;
+  --slot-x: 138;
+  --slot-y: 111;
+  --slot-r: 67;
+  --bar-top: 55;
+  --bar-bottom: 175;
+  border-image-source: url("./assets/plate-rival.webp");
+}
+.seat-plate-turn {
+  filter: drop-shadow(0 0 2px var(--gold-1)) drop-shadow(0 0 12px var(--gold-glow));
+}
+/* The round slot, positioned from the padding box (which starts after the left slice). */
+.seat-slot {
+  position: absolute;
+  left: calc(var(--k) * (var(--slot-x) - var(--slice-l) - var(--slot-r)));
+  top: calc(var(--k) * (var(--slot-y) - var(--slot-r)));
+  width: calc(var(--k) * var(--slot-r) * 2);
+  height: calc(var(--k) * var(--slot-r) * 2);
+}
+.seat-slot .avatar {
+  width: 100%;
+  height: 100%;
+}
+.seat-info {
+  /* The name keeps room; the face-down tiles give way first on narrow plates. */
+  flex: 1 0 6em;
+  min-width: 0;
+  line-height: 1.08;
+}
+.seat-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.seat-label {
+  flex: none;
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.seat-plate-me .seat-label,
+.seat-plate-partner .seat-label {
+  color: var(--gold-1);
+}
+.seat-plate-rival .seat-label {
+  color: var(--rose);
+}
+.seat-name {
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+}
+.seat-meta {
+  display: flex;
+  gap: var(--space-2);
+  overflow: hidden;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.seat-detail {
+  color: var(--ink-muted);
+}
+.badge-offline {
+  color: var(--danger);
+  font-weight: 600;
+}
+.badge-strikes {
+  color: var(--danger-soft);
+  font-weight: 700;
+}
+
+/* Turn clock: the ornate ring (image) covers the slot; its inner edge (99.5 of 256) meets the slot
+   edge, so it is drawn 256/199 = 128.6% of the slot. The countdown arc runs just inside it. */
+.timer-ring,
+.timer-arc {
+  position: absolute;
+  top: -14.3%;
+  left: -14.3%;
+  width: 128.6%;
+  height: 128.6%;
+  pointer-events: none;
+}
+.timer-arc {
+  transform: rotate(-90deg);
+}
+.timer-track {
+  fill: none;
+  stroke: rgb(0 0 0 / 0.55);
+  stroke-width: 12;
+}
+.timer-progress {
+  fill: none;
+  stroke: var(--gold-1);
+  stroke-width: 12;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 200ms linear;
+}
+.timer-urgent .timer-progress {
+  stroke: var(--danger);
+}
+.timer-seconds {
+  position: absolute;
+  right: -8px;
+  bottom: -6px;
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--gold-grad);
+  color: var(--accent-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.6);
+}
+.timer-urgent .timer-seconds {
+  background: var(--danger);
+  color: var(--danger-ink);
+}
+.opponent-backs {
+  display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+.opponent-backs .tile-back {
+  width: 14px;
+  height: 28px;
+}
+.opponent-backs .tile-back + .tile-back {
+  margin-left: -7px;
+}
+/* Upright panel for a seat at the side of the board (2 vs 2 rivals), drawn on the panel artwork
+   (247 x 600 source): the avatar fills the round hole, label, name and tiles sit on the velvet below.
+   Hole centre (124, 145.5), radius 90; velvet 257 to 558 high, 14 to 232 wide; measured from the image. */
+.seat-plate-vertical {
+  --side-w: 104px;
+  --k: calc(var(--side-w) / 247);
+  --hole-cy: 145.5;
+  --velvet-top: 257;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--space-1);
+  width: var(--side-w);
+  height: calc(var(--k) * 600);
+  padding: calc(var(--k) * (var(--velvet-top) + 14)) calc(var(--k) * 18) calc(var(--k) * 42);
+  border: none;
+  border-image: none;
+  background: url("./assets/plate-side-rival.webp") center / 100% 100% no-repeat;
+  text-align: center;
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.5));
+}
+/* Partner art, for when a partner sits at a side (not yet: in 2 vs 2 the partner is at the top). */
+.seat-plate-vertical.seat-plate-partner {
+  --hole-cy: 149.5;
+  background-image: url("./assets/plate-side-partner.webp");
+}
+.seat-plate-vertical.seat-plate-turn {
+  filter: drop-shadow(0 0 2px var(--gold-1)) drop-shadow(0 0 12px var(--gold-glow));
+}
+.seat-plate-vertical .seat-slot {
+  top: calc(var(--k) * (var(--hole-cy) - 90));
+  left: calc(var(--k) * 34);
+  width: calc(var(--k) * 180);
+  height: calc(var(--k) * 180);
+}
+.seat-plate-vertical .seat-info {
+  flex: none;
+  width: 100%;
+}
+.seat-plate-vertical .seat-title {
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.seat-plate-vertical .seat-name {
+  max-width: 100%;
+}
+.seat-plate-vertical .seat-meta {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 var(--space-2);
+  white-space: normal;
+}
+
+/* 2 vs 2: the rivals sit at the sides of the board, the board between them. */
+.table-stage-sides {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: var(--space-3);
+}
+.table-stage-sides .table-top,
+.table-stage-sides .table-bottom {
+  grid-column: 1 / -1;
+}
+.table-stage-sides .board {
+  grid-column: 2;
+}
+/* The hint stays in the board's column so it never covers the left rival's panel. */
+.table-stage-sides .table-hint {
+  grid-column: 2;
+  width: min(380px, 85%);
+}
+/* With side panels the draw pile sits left of the language switch, clear of the right rival. */
+.table-stage-sides .table-corner {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: var(--space-3);
+}
+.table-stage-sides .stock {
+  position: relative;
+  top: auto;
+  right: auto;
+}
+.table-stage-sides .stock-icon {
+  width: 22px;
+  height: 44px;
+}
+.side-seat {
+  display: flex;
+  grid-row: 2;
+  align-items: center;
+  align-self: center;
+  gap: var(--space-2);
+}
+.side-seat-left {
+  grid-column: 1;
+}
+/* Tiles toward the board on both sides. */
+.side-seat-right {
+  grid-column: 3;
+  flex-direction: row-reverse;
+}
+.side-backs {
+  display: flex;
+  flex-direction: column;
+}
+.side-backs .tile-back {
+  width: 16px;
+  height: 32px;
+}
+.side-backs .tile-back + .tile-back {
+  margin-top: -22px;
+}
+/* Tall screens (desktops): bigger side seats, closer to the mockup. */
+@media (min-height: 700px) {
+  .seat-plate-vertical {
+    --side-w: 140px;
+  }
+  .seat-plate-vertical .seat-label {
+    font-size: 0.75rem;
+  }
+  .seat-plate-vertical .seat-name {
+    font-size: 1.375rem;
+  }
+  .seat-plate-vertical .seat-meta {
+    font-size: 0.875rem;
+  }
+  .side-backs .tile-back {
+    width: 22px;
+    height: 44px;
+  }
+  .side-backs .tile-back + .tile-back {
+    margin-top: -30px;
+  }
+}
+
+/* The pile to draw from, floating under the language toggle: a face-down tile with the count on it. */
+.stock {
+  position: absolute;
+  top: calc(100% + var(--space-3));
+  right: var(--space-2);
+}
+.stock-icon {
+  display: block;
+  width: 30px;
+  height: 60px;
+  filter: drop-shadow(3px 3px 0 rgb(0 0 0 / 0.35)) drop-shadow(0 4px 6px rgb(0 0 0 / 0.5));
+}
+.stock strong {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 4px;
+  border: 2px solid var(--gold-2);
+  border-radius: 999px;
+  background: var(--night);
+  color: var(--gold-1);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-variant-numeric: lining-nums tabular-nums;
+  transform: translate(-50%, -50%);
+}
+
+/* The board fills the middle row; board.tsx scales the current zoom step to fit it, centered. */
+.board {
+  grid-row: 2;
+  grid-column: 1;
+  min-height: 0;
+}
+.board-area {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+.board-canvas {
+  position: relative;
+}
+.board-tile {
+  position: absolute;
+  filter: drop-shadow(0 2px 2px rgb(0 0 0 / 0.5));
+}
+/* A zoom step moves and resizes everything on the board together. */
+.board-canvas,
+.board-tile,
+.end-badge,
+.end-slot {
+  transition:
+    left 250ms ease,
+    top 250ms ease,
+    width 250ms ease,
+    height 250ms ease,
+    font-size 250ms ease;
+}
+.board-end {
+  outline: 2px solid var(--gold-1);
+  outline-offset: 2px;
+  border-radius: 6px;
+  filter: drop-shadow(0 0 6px var(--gold-glow));
+}
+.end-badge {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--gold-2);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, var(--felt-700), var(--night));
+  color: var(--gold-1);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variant-numeric: lining-nums tabular-nums;
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px var(--gold-glow), 0 2px 4px rgb(0 0 0 / 0.5);
+}
+.end-slot {
+  position: absolute;
+  z-index: 2;
+  padding: 0;
+  border: 2px dashed var(--gold-1);
+  border-radius: 6px;
+  background: var(--accent-soft);
+  cursor: pointer;
+  animation: slot-pulse 1.1s ease-in-out infinite;
+}
+@keyframes slot-pulse {
+  50% {
+    background: rgb(226 180 82 / 0.45);
+  }
+}
+
+/* Valentina speaks from the bottom-left of the board row, just above the player's plate. Taps go
+   through her to the board. */
+.table-hint {
+  z-index: 3;
+  grid-row: 2;
+  grid-column: 1;
+  align-self: end;
+  justify-self: start;
+  width: min(380px, 45%);
+  pointer-events: none;
+}
+.table-hint .host-bubble-text {
+  display: -webkit-box;
+  overflow: hidden;
+  border-color: var(--gold-2);
+  background: var(--paper);
+  color: var(--paper-ink);
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.45);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.hint-last-chance .host-bubble-text {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+  color: var(--danger-ink);
+}
+
+/* Plate | hand tray | action. The action column keeps its width so the tray never jumps. */
+.table-bottom {
+  --action-w: 210px;
+  grid-row: 3;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) var(--action-w);
+  align-items: end;
+  gap: var(--space-4);
+}
+.hand-tray {
+  justify-self: center;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--gold-line);
+  border-radius: var(--radius-lg);
+  background: rgb(3 10 6 / 0.45);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.35);
+}
+.me-turn .hand-tray {
+  border-color: var(--gold-2);
+  box-shadow: 0 0 16px var(--gold-glow), 0 6px 18px rgb(0 0 0 / 0.35);
+}
+.actions {
+  display: grid;
+  align-self: center;
+  gap: var(--space-2);
+}
+.hand {
+  display: flex;
+  gap: 6px;
+  /* Headroom so lifted (playable/selected) tiles are not clipped by the scroll box. */
+  padding: 18px var(--space-1) var(--space-1);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+.hand-tile {
+  flex: none;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+.hand .tile {
+  display: block;
+  width: 48px;
+  height: 96px;
+  filter: drop-shadow(0 4px 5px rgb(0 0 0 / 0.5));
+}
+.hand-tile:disabled {
+  cursor: default;
+}
+.hand:not(.hand-my-turn) .hand-tile {
+  filter: brightness(0.85);
+}
+.hand-my-turn .hand-tile-idle {
+  filter: brightness(0.55) saturate(0.7);
+}
+.hand-tile-playable:not(:disabled) {
+  transform: translateY(-8px);
+}
+.hand-tile-playable:not(:disabled) .tile {
+  filter: drop-shadow(0 0 3px var(--gold-1)) drop-shadow(0 0 10px var(--gold-glow)) drop-shadow(0 4px 5px rgb(0 0 0 / 0.5));
+}
+.hand-tile-selected {
+  transform: translateY(-16px);
+}
+.hand-tile-selected .tile {
+  filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 12px var(--gold-1)) drop-shadow(0 4px 5px rgb(0 0 0 / 0.5));
+}
+.hand-tile:focus-visible {
+  outline: none;
+}
+.hand-tile:focus-visible .tile {
+  outline: 3px dashed var(--gold-1);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* ---------- Tiles (image face + code-drawn pips) ---------- */
+.tile {
+  display: block;
+}
+.tile-divider {
+  stroke: var(--tile-pip);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.5;
+}
+.tile-pip {
+  fill: var(--tile-pip);
+}
+.tile-pip-shine {
+  fill: var(--shine);
+}
+img.tile-back {
+  object-fit: fill;
+}
+
+/* ---------- Dialogs ---------- */
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  background: rgb(0 0 0 / 0.6);
+}
+.dialog-center {
+  place-items: center;
+  padding: var(--space-4);
+}
+.dialog-center .dialog-panel {
+  display: grid;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 380px;
+  padding: var(--space-6);
+  border: 1px solid var(--gold-line);
+  border-radius: var(--radius-lg);
+  background: var(--panel-strong);
+  box-shadow: 0 16px 40px rgb(0 0 0 / 0.6);
+}
+.dialog-title {
+  font-size: 1.5rem;
+}
+.dialog-body {
+  color: var(--ink-muted);
+}
+.dialog-actions {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* Full-screen result: the artwork fills the top, the content sits on its empty felt. */
+.dialog-full {
+  overflow-y: auto;
+  background: var(--night);
+}
+.dialog-full .dialog-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* Content sits at the bottom; the artwork fills whatever height is left above it. Only a screen too
+     small for the content itself scrolls (min-height, not a fixed top area). */
+  justify-content: flex-end;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 100dvh;
+  padding: var(--space-4) var(--space-5) calc(var(--space-4) + env(safe-area-inset-bottom));
+  text-align: center;
+  animation: result-in 260ms ease-out both;
+}
+/* The artwork fills the width; the result keeps a phone-sized column on wider stacked screens. */
+.dialog-full .dialog-panel > :not(.outcome-art) {
+  align-self: center;
+  width: 100%;
+  max-width: 520px;
+}
+@keyframes result-in {
+  from {
+    opacity: 0;
+  }
+}
+/* The artwork fades out into the felt (a mask, so the felt texture shows through, no seam). */
+.outcome-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(180deg, #000 30%, rgb(0 0 0 / 0.2) 52%, transparent 66%);
+}
+.outcome-scene {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+.outcome-art-tie {
+  background:
+    linear-gradient(180deg, rgb(4 12 8 / 0.4), rgb(4 12 8 / 0.75)),
+    url("./assets/bg-club-portrait.webp") center top / cover;
+}
+.outcome-host {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: 92%;
+  transform: translateX(-50%);
+}
+.result .dialog-title {
+  position: relative;
+  font-size: clamp(2.25rem, 11vw, 3rem);
+  /* Room for the accent and the inverted exclamation mark (gold text is clipped to the line box). */
+  line-height: 1.2;
+  filter: drop-shadow(0 4px 12px rgb(0 0 0 / 0.8));
+}
+.outcome-loss .dialog-title {
+  font-size: clamp(2rem, 10vw, 2.6rem);
+}
+.result-reason {
+  position: relative;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-style: italic;
+}
+.result-points {
+  position: relative;
+  color: var(--gold-1);
+  font-size: 1.375rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.result-hands {
+  position: relative;
+  display: grid;
+  /* Side by side, so both hands fit without pushing the buttons off screen. */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-2);
+  text-align: left;
+}
+.result-hand {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--gold-line);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+.result-hand-title {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+/* One line per box header, so three or four boxes still fit one screen; boxes shrink to their column. */
+.result-hand,
+.result-hand > * {
+  min-width: 0;
+}
+.result-hand-title > :first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.result-hand-pips {
+  flex: none;
+  white-space: nowrap;
+  color: var(--gold-1);
+  font-variant-numeric: tabular-nums;
+}
+.result-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.result-tiles .tile {
+  width: 26px;
+  height: 52px;
+}
+.result-scores {
+  position: relative;
+  display: grid;
+  gap: var(--space-1);
+  text-align: left;
+}
+.result-score-row {
+  display: flex;
+  justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+}
+.result-actions {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* Short screens (small phones, phones sideways, short laptop windows): tighter result. */
+@media (max-height: 620px) {
+  .dialog-full .dialog-panel {
+    gap: 6px;
+    padding-top: var(--space-2);
+  }
+  .result .dialog-title {
+    font-size: 2rem;
+  }
+  .result-points {
+    font-size: 1.125rem;
+  }
+  .result-hand {
+    gap: 6px;
+    padding: var(--space-2) var(--space-3);
+  }
+  .result-tiles .tile {
+    width: 22px;
+    height: 44px;
+  }
+  .result-actions {
+    gap: var(--space-2);
+    margin-top: 0;
+  }
+  .result-actions .btn {
+    min-height: 44px;
+    padding-inline: var(--space-3);
+    font-size: 0.8125rem;
+    letter-spacing: 0.03em;
+  }
+}
+
+/* ---------- Feedback ---------- */
+.banner {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 20;
+  padding: calc(var(--space-2) + env(safe-area-inset-top)) var(--space-4) var(--space-2);
+  background: var(--danger);
+  color: var(--danger-ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+.toast {
+  position: fixed;
+  top: calc(var(--space-3) + env(safe-area-inset-top));
+  right: var(--space-3);
+  left: var(--space-3);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 460px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-2) var(--space-3) var(--space-4);
+  border: 1px solid var(--gold-line);
+  border-left: 4px solid var(--gold-2);
+  border-radius: var(--radius);
+  background: var(--panel-strong);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
+  animation: toast-in 200ms ease-out both;
+}
+.toast p {
+  flex: 1;
+}
+.toast-close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.toast-close svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+@keyframes toast-in {
+  from {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+}
+
+/* ---------- Landscape screens ----------
+   Clearly wide screens (phones held sideways, laptops, tablets held sideways): each screen in two columns,
+   fitting one screen without scrolling. Near-square windows (below 4:3) keep the stacked layout above.
+   min-width keeps an upright phone with the keyboard open on its stacked layout; every phone held sideways
+   is at least 568 px wide. */
+@media (min-aspect-ratio: 4/3) and (min-width: 560px) {
+  /* Welcome: Valentina on the right, logo, tagline and buttons on the left. */
+  .landing {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    max-width: none;
+    height: 100dvh;
+    min-height: 0;
+    background: none;
+  }
+  .landing-hero {
+    display: none;
+  }
+  /* The welcome video fills the screen; the left side is darkened so the logo and buttons stay readable. */
+  .landing-media {
+    position: absolute;
+    inset: 0;
+  }
+  .landing-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgb(4 12 8 / 0.88) 0%, rgb(4 12 8 / 0.6) 38%, transparent 62%);
+  }
+  .landing-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Valentina sits right of centre: keep her in view when the sides are cropped. */
+    object-position: 72% center;
+  }
+  .landing-actions {
+    position: relative;
+    z-index: 1;
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 440px;
+    justify-self: center;
+    padding: var(--space-4) var(--space-5);
+    background: none;
+  }
+  .landing-logo {
+    display: block;
+    align-self: center;
+    width: min(300px, 80%);
+    filter: drop-shadow(0 4px 10px rgb(0 0 0 / 0.6));
+  }
+
+  /* Secondary screens: back, logo and language in one top bar across the screen. */
+  .account,
+  .lobby,
+  .private,
+  .waiting {
+    display: grid;
+    max-width: 1200px;
+    height: 100dvh;
+    min-height: 0;
+    padding:
+      calc(var(--space-2) + env(safe-area-inset-top))
+      calc(var(--space-5) + env(safe-area-inset-right))
+      calc(var(--space-3) + env(safe-area-inset-bottom))
+      calc(var(--space-5) + env(safe-area-inset-left));
+  }
+  .account .screen-logo,
+  .private .screen-logo {
+    grid-area: top;
+    align-self: center;
+    justify-self: center;
+    width: auto;
+    height: 48px;
+  }
+  .account .top-row,
+  .private .top-row {
+    grid-area: top;
+  }
+
+  /* Sign up / sign in: Valentina and her bubble on the left, the form on the right. */
+  .account {
+    grid-template-areas: "top top" "host form" "bubble form";
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: var(--space-2) var(--space-6);
+  }
+  .account-host {
+    display: block;
+    grid-area: host;
+    align-self: end;
+    justify-self: center;
+    max-width: 100%;
+    max-height: 100%;
+    min-height: 0;
+    object-fit: contain;
+    mask-image: linear-gradient(180deg, #000 80%, transparent 100%);
+  }
+  .account .host-bubble {
+    grid-area: bubble;
+  }
+  .account-form {
+    display: grid;
+    grid-area: form;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-self: center;
+    gap: var(--space-3) var(--space-4);
+    /* Error messages can make it taller than the screen: then it scrolls inside, never over the top bar. */
+    max-height: 100%;
+    overflow-y: auto;
+    padding: var(--space-4) var(--space-5);
+  }
+  .account-title,
+  .account-form .btn {
+    grid-column: 1 / -1;
+  }
+  /* While the form scrolls (error messages on a short screen), the submit button stays in view. */
+  .account-form .btn {
+    position: sticky;
+    bottom: 0;
+  }
+  /* An error under one field must not stretch the field beside it; inputs shrink to their column. */
+  .account-form .field {
+    align-content: start;
+    min-width: 0;
+  }
+  .account-form .field input {
+    width: 100%;
+    min-width: 0;
+  }
+  .account-form .check {
+    align-self: start;
+    padding-top: 1.5rem;
+  }
+
+  /* Lobby: one top bar (Valentina, the player, language), then the rooms side by side. */
+  .lobby {
+    /* Title and rooms centered in the height under the top bar. */
+    grid-template-areas: "avatar host player lang" ". . . ." "title title title title" "rooms rooms rooms rooms" ". . . .";
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    grid-template-rows: auto 1fr auto auto 1.4fr;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+  }
+  .lobby-header {
+    display: contents;
+  }
+  .lobby-header .avatar {
+    grid-area: avatar;
+    width: 52px;
+    height: 52px;
+  }
+  .lobby-host {
+    grid-area: host;
+  }
+  .lobby-header .lang-toggle {
+    grid-area: lang;
+  }
+  .lobby-player {
+    grid-area: player;
+    justify-self: end;
+    width: min(360px, 100%);
+  }
+  .lobby .section-title {
+    grid-area: title;
+    font-size: 1.5rem;
+  }
+  .rooms {
+    grid-area: rooms;
+    grid-auto-columns: minmax(150px, 1fr);
+    grid-auto-flow: column;
+    gap: var(--space-3);
+    /* Room below the cards for their shadow; swipes sideways when the cards do not all fit. */
+    padding: var(--space-1) var(--space-1) var(--space-3);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+  .rooms li {
+    scroll-snap-align: start;
+  }
+  .room {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    align-items: start;
+    height: 100%;
+    min-height: 0;
+    padding: var(--space-3);
+  }
+  .room-art {
+    align-self: center;
+    height: 120px;
+  }
+  .room-title {
+    font-size: 1.25rem;
+  }
+  .room-detail {
+    font-size: 0.8125rem;
+  }
+  .room-chevron {
+    display: none;
+  }
+
+  /* Private table: create on the left, join on the right. */
+  .private {
+    /* Title and both cards centered in the height under the top bar. */
+    grid-template-areas: "top top" ".  ." "title title" "create join" ". .";
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto 1fr auto auto 1.4fr;
+    gap: var(--space-3) var(--space-5);
+  }
+  .private .section-title {
+    grid-area: title;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .private-block {
+    grid-area: create;
+    align-self: start;
+    padding: var(--space-4) var(--space-5);
+  }
+  .private-join {
+    grid-area: join;
+  }
+
+  /* Waiting: Valentina and you-vs-rival on the left; title, code and buttons on the right. */
+  .waiting {
+    grid-template-areas: "side top" "side main";
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--space-2) var(--space-6);
+  }
+  .waiting .top-row {
+    grid-area: top;
+  }
+  .waiting-side {
+    display: flex;
+    grid-area: side;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+  }
+  .waiting-host {
+    min-height: 0;
+    max-height: 70%;
+  }
+  .waiting-main {
+    display: flex;
+    grid-area: main;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 420px;
+    min-height: 0;
+  }
+  .waiting .table-code {
+    font-size: 2.5rem;
+  }
+
+  /* Result: the artwork fills the left half; the result and buttons sit on the felt on the right. */
+  .dialog-full .dialog-panel {
+    /* safe: if the content is ever taller than the screen it scrolls instead of losing its top. */
+    justify-content: safe center;
+    max-width: none;
+    padding:
+      calc(var(--space-3) + env(safe-area-inset-top))
+      calc(var(--space-6) + env(safe-area-inset-right))
+      calc(var(--space-3) + env(safe-area-inset-bottom))
+      calc(50% + var(--space-6));
+  }
+  .outcome-art {
+    right: 50%;
+  }
+  .outcome-art {
+    mask-image: linear-gradient(90deg, #000 55%, transparent 100%);
+  }
+  .outcome-scene {
+    object-position: center 18%;
+  }
+  /* The hands always side by side: stacked they would push the buttons off a short screen. */
+  .result-hands {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .result-actions {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+  .result-actions .btn {
+    padding-inline: var(--space-3);
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* Tall landscape screens (desktops): bigger room pictures. */
+@media (min-aspect-ratio: 4/3) and (min-width: 560px) and (min-height: 700px) {
+  .room-art {
+    height: 190px;
+  }
+}
+
+/* Short landscape screens (phones held sideways): tighter spacing and controls. */
+@media (min-aspect-ratio: 4/3) and (min-width: 560px) and (max-height: 520px) {
+  .landing-actions {
+    gap: var(--space-2);
+  }
+  .landing-logo {
+    width: min(230px, 70%);
+  }
+  /* Keep the buttons left of Valentina, who fills more of the height here. */
+  .landing-actions {
+    justify-self: start;
+    max-width: 360px;
+  }
+  .landing-tagline {
+    margin-bottom: 0;
+    font-size: 1rem;
+  }
+  .landing-actions .btn,
+  .account-form .btn,
+  .private .btn,
+  .waiting .btn {
+    min-height: 44px;
+  }
+  .account .screen-logo,
+  .private .screen-logo {
+    height: 36px;
+  }
+  .account .top-row .lang-option,
+  .private .top-row .lang-option,
+  .waiting .top-row .lang-option,
+  .lobby .lang-option {
+    min-height: 36px;
+  }
+  .account-form {
+    gap: var(--space-2) var(--space-3);
+    padding: var(--space-3) var(--space-4);
+  }
+  .account-title {
+    font-size: 1.25rem;
+  }
+  .field {
+    gap: var(--space-1);
+  }
+  .field input {
+    min-height: 40px;
+  }
+  .account .host-bubble-text,
+  .account-form .field-error {
+    font-size: 0.8125rem;
+  }
+  .lobby-header .avatar {
+    width: 40px;
+    height: 40px;
+  }
+  .lobby-host-name {
+    font-size: 1.25rem;
+  }
+  .lobby-host-role {
+    font-size: 0.75rem;
+  }
+  .lobby .section-title,
+  .private .section-title {
+    font-size: 1.25rem;
+  }
+  .room-art {
+    height: 110px;
+  }
+  .room-cta {
+    padding: 2px var(--space-3);
+    font-size: 0.75rem;
+  }
+  .private-block {
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+  }
+  .waiting-main {
+    gap: var(--space-2);
+  }
+  .waiting .section-title {
+    font-size: 1.5rem;
+  }
+  .waiting .table-code {
+    font-size: 2rem;
+  }
+  .versus .avatar {
+    width: 52px;
+    height: 52px;
+  }
+  .versus-emblem {
+    width: 60px;
+    height: 60px;
+  }
+  .versus-unknown {
+    width: 52px;
+    height: 52px;
+  }
+  /* Up to 14 tiles per box in 2 vs 2: smaller tiles keep the result on one screen. */
+  .result-tiles .tile {
+    width: 18px;
+    height: 36px;
+  }
+}
+
+/* ---------- Rotate prompt: the table is played in landscape ---------- */
+.rotate-prompt {
+  display: none;
+}
+@media (orientation: portrait) and (max-width: 600px) {
+  .rotate-prompt {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: var(--space-4);
+    padding: calc(var(--space-6) + env(safe-area-inset-top)) var(--space-6) calc(var(--space-6) + env(safe-area-inset-bottom));
+    background: rgb(4 12 8 / 0.7);
+    text-align: center;
+  }
+  .table-stage {
+    visibility: hidden;
+  }
+}
+.rotate-host {
+  max-width: 100%;
+  max-height: 40dvh;
+  mask-image: linear-gradient(180deg, #000 80%, transparent 100%);
+}
+.rotate-phone {
+  width: 40px;
+  height: 68px;
+  border: 3px solid var(--gold-2);
+  border-radius: 10px;
+  animation: rotate-phone 2.4s ease-in-out infinite;
+}
+@keyframes rotate-phone {
+  40%,
+  100% {
+    transform: rotate(-90deg);
+  }
+}
+.rotate-title {
+  color: var(--gold-1);
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+}
+.rotate-body {
+  max-width: 30ch;
+  color: var(--ink-muted);
+}
+.rotate-failed {
+  max-width: 30ch;
+  color: var(--danger-soft);
+  font-weight: 600;
+}
+
+/* ---------- Responsive ---------- */
+@media (min-width: 900px) {
+  .hand .tile {
+    width: 56px;
+    height: 112px;
+  }
+}
+
+/* Phones held sideways: everything around the board gets compact so the board keeps the height. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .table-stage {
+    gap: var(--space-1);
+  }
+  .seat-plate {
+    --plate-h: 54px;
+  }
+  .seat-plate-vertical {
+    --side-w: 78px;
+  }
+  .seat-plate-vertical .seat-label {
+    font-size: 0.5625rem;
+  }
+  .seat-plate-vertical .seat-name {
+    font-size: 0.8125rem;
+  }
+  .seat-plate-vertical .seat-meta {
+    font-size: 0.6875rem;
+  }
+  .side-backs .tile-back {
+    width: 12px;
+    height: 24px;
+  }
+  .side-backs .tile-back + .tile-back {
+    margin-top: -17px;
+  }
+  .seat-name {
+    font-size: 0.9375rem;
+  }
+  .lang-option {
+    min-width: 40px;
+    min-height: 36px;
+  }
+  .stock {
+    top: calc(100% + var(--space-2));
+  }
+  .stock-icon {
+    width: 24px;
+    height: 48px;
+  }
+  .table-hint .host-bubble-text {
+    padding: 4px var(--space-3);
+    font-size: 0.8125rem;
+  }
+  .table-hint .avatar {
+    width: 32px;
+    height: 32px;
+  }
+  .table-bottom {
+    --action-w: 136px;
+    gap: var(--space-3);
+  }
+  .actions .btn {
+    min-height: 44px;
+    padding-inline: var(--space-3);
+    font-size: 0.875rem;
+  }
+  .hand {
+    padding-top: 12px;
+  }
+  .hand .tile {
+    width: 34px;
+    height: 68px;
+  }
+  .hand-tile-playable:not(:disabled) {
+    transform: translateY(-5px);
+  }
+  .hand-tile-selected {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
