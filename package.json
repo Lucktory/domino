@@ -9,6 +9,7 @@
   "scripts": {
     "dev:server": "pnpm --filter @dominio/server dev",
     "dev:web": "pnpm --filter @dominio/web dev",
+    "host": "node scripts/host.mjs",
     "typecheck": "pnpm -r run typecheck",
     "lint": "eslint .",
     "test": "vitest run",

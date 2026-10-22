@@ -5,6 +5,8 @@ coverage/
 .env
 .env.*
 !.env.example
+# The public server address written by pnpm host (Vercel builds the site with it); not secret.
+!apps/web/.env.production
 *.log
 
 # AI assistant notes: local only, never committed

@@ -164,3 +164,12 @@ tie for fewest = no winner.
 - [x] protocol + server: modes "3p" | "4p", rules in demo-rules, quick match; tests
 - [x] web: lobby cards playable; waiting "n de 3/4"; seating (3: left + right; 4: left + top + right); result boxes 2x2; copy
 - [x] QA: full 3p and 4p matches + leave at phone / small / desktop; 1v1 and 2v2 unchanged; pnpm check
+
+## Phase 11: host the demo from this computer (approved 2026-10-23)
+Web on Vercel; server on this PC behind a free Cloudflare quick tunnel. `pnpm host` starts both and, when the tunnel
+address changes, writes it to apps/web/.env.production, commits only that file and pushes (Vercel rebuilds).
+Never pushes when main has other unpushed commits or is not the current branch.
+- [x] .gitignore allows apps/web/.env.production
+- [x] scripts/host.mjs + `pnpm host`
+- [x] test: tunnel + health check against a test server; commit/push logic in a throwaway clone (no GitHub)
+- [x] pnpm check; commit
