@@ -1,0 +1,8 @@
+{
+  "path": ["packages", "apps"],
+  "pattern": "**/*.{ts,tsx,css}",
+  "ignore": ["**/node_modules/**", "**/dist/**", "**/dev-dist/**"],
+  "minTokens": 50,
+  "exitCode": 1,
+  "reporters": ["console"]
+}
