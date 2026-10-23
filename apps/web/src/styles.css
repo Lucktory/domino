@@ -32,6 +32,9 @@
   --tile-pip: #141311;
   --shine: rgb(255 255 255 / 0.55);
   --paper: #f3ead3;
+  /* Valentina cutouts end in a hard edge through the dress: fade only that last strip, so arms and elbows
+     (down to about 85% of each picture) stay whole. */
+  --host-fade: linear-gradient(180deg, #000 90%, transparent 100%);
   --paper-ink: #2b2115;
 
   --radius-sm: 8px;
@@ -567,7 +570,7 @@ button.room:hover:not(:disabled) {
   width: auto;
   max-width: 100%;
   max-height: 34dvh;
-  mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
+  mask-image: var(--host-fade);
 }
 /* You, the VS emblem, and a face-down tile for the rival still to come. */
 .versus {
@@ -1605,7 +1608,7 @@ img.tile-back {
     max-height: 100%;
     min-height: 0;
     object-fit: contain;
-    mask-image: linear-gradient(180deg, #000 80%, transparent 100%);
+    mask-image: var(--host-fade);
   }
   .account .host-bubble {
     grid-area: bubble;
@@ -1937,7 +1940,7 @@ img.tile-back {
 .rotate-host {
   max-width: 100%;
   max-height: 40dvh;
-  mask-image: linear-gradient(180deg, #000 80%, transparent 100%);
+  mask-image: var(--host-fade);
 }
 .rotate-phone {
   width: 40px;
