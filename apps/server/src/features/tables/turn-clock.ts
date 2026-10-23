@@ -32,11 +32,20 @@ export function createTurnClock(onDue: (tableId: string, version: number) => voi
       if (current?.version === match.version && current.deadline === turnDeadline) return;
       cancel(table.id);
       const version = match.version;
-      const handle = setTimeout(() => {
+      const fire = () => {
+        const entry = pending.get(table.id);
+        if (entry === undefined) throw new Error(`turn timer fired for table ${table.id} after it was cancelled`);
+        // The service decides "due" with the same clock. If that clock is behind the timer (e.g. the system
+        // clock was adjusted), asking now would be ignored and nothing would ask again: wait out the rest.
+        const left = turnDeadline - now();
+        if (left > 0) {
+          entry.handle = setTimeout(fire, left);
+          return;
+        }
         pending.delete(table.id);
         onDue(table.id, version);
-      }, Math.max(0, turnDeadline - now()));
-      pending.set(table.id, { version, deadline: turnDeadline, handle });
+      };
+      pending.set(table.id, { version, deadline: turnDeadline, handle: setTimeout(fire, Math.max(0, turnDeadline - now())) });
     },
     stopAll() {
       for (const tableId of [...pending.keys()]) cancel(tableId);

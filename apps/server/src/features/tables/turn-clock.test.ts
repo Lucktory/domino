@@ -54,6 +54,18 @@ describe("createTurnClock", () => {
     expect(due).toHaveBeenCalledTimes(1);
   });
 
+  it("if the clock is behind when the timer fires, it waits out the rest instead of dropping the turn", () => {
+    const due = vi.fn();
+    const lag = { ms: 0 };
+    const clock = createTurnClock(due, () => Date.now() - lag.ms);
+    clock.track(tableAt(3, 15_000));
+    lag.ms = 5; // the system clock steps back 5 ms before the deadline
+    vi.advanceTimersByTime(15_000);
+    expect(due).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(5);
+    expect(due).toHaveBeenCalledExactlyOnceWith("t1", 3);
+  });
+
   it("stopAll cancels pending timers", () => {
     const due = vi.fn();
     const clock = createTurnClock(due);
