@@ -1,5 +1,5 @@
 import type { RuleSet } from "@dominio/engine";
-import type { GameMode } from "@dominio/protocol";
+import type { GameMode } from "./client-events.ts";
 
 /** Decided by the user (2026-10-22): 15 s per action, two timeouts in a row lose the match. */
 const TURN_RULES = { turnSeconds: 15, timeoutStrikesToForfeit: 2 } as const;
@@ -7,7 +7,8 @@ const TURN_RULES = { turnSeconds: 15, timeoutStrikesToForfeit: 2 } as const;
 /**
  * PENDING CLIENT CONFIRMATION. Placeholder values so the demo can be played, one rule set per game mode.
  * Every value here is a question open with the client (tiles per player, draw or pass, who opens, single
- * hand or to points). Change them here only; nothing else hardcodes rules.
+ * hand or to points). Change them here only; nothing else hardcodes rules. Shared by the server (online
+ * tables) and the browser (games against the computer), so both always play the same rules.
  */
 export const DEMO_RULES_BY_MODE: Readonly<Record<GameMode, RuleSet>> = {
   "1v1": {

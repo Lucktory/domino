@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { cryptoRng } from "../../lib/crypto-rng.ts";
-import { DEMO_RULES_BY_MODE } from "./demo-rules.ts";
+import { DEMO_RULES_BY_MODE } from "@dominio/protocol";
 import { createTableQueue } from "./table-queue.ts";
 import { createTableService, type TableResult } from "./table-service.ts";
 import { createInMemoryTableStore } from "./table-store.ts";

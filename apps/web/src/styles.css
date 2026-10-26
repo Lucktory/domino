@@ -219,7 +219,8 @@ p {
 }
 
 /* ---------- Language toggle ---------- */
-.lang-toggle {
+.lang-toggle,
+.opponent-toggle {
   display: inline-flex;
   flex: none;
   padding: 2px;
@@ -227,7 +228,8 @@ p {
   border-radius: 999px;
   background: rgb(5 13 9 / 0.75);
 }
-.lang-option {
+.lang-option,
+.opponent-option {
   min-width: 44px;
   min-height: 44px;
   padding: 0 var(--space-2);
@@ -241,9 +243,33 @@ p {
   letter-spacing: 0.06em;
   cursor: pointer;
 }
-.lang-option[aria-pressed="true"] {
+.lang-option[aria-pressed="true"],
+.opponent-option[aria-pressed="true"] {
   background: var(--gold-grad);
   color: var(--accent-ink);
+}
+.opponent-option {
+  padding: 0 var(--space-4);
+}
+.opponent-option:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* "Choose your table", the online / computer switch and, without the server, a note. */
+.lobby-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+}
+.lobby-server-note {
+  flex-basis: 100%;
+  margin-bottom: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  color: var(--ink);
+  font-size: 0.875rem;
 }
 .lang-toggle-floating {
   position: absolute;
@@ -336,14 +362,6 @@ p {
   align-self: center;
   width: min(240px, 66%);
   filter: drop-shadow(0 4px 10px rgb(0 0 0 / 0.5));
-}
-.splash {
-  display: grid;
-  place-items: center;
-  min-height: 100dvh;
-  padding: var(--space-6);
-  color: var(--ink-muted);
-  text-align: center;
 }
 
 /* ---------- Hostess speech bubble ---------- */
@@ -1652,7 +1670,9 @@ img.tile-back {
     /* Title and rooms centered in the height under the top bar. */
     grid-template-areas: "avatar host player lang" ". . . ." "title title title title" "rooms rooms rooms rooms" ". . . .";
     grid-template-columns: auto auto minmax(0, 1fr) auto;
-    grid-template-rows: auto 1fr auto auto 1.4fr;
+    /* The rooms row may shrink below the cards' natural height (e.g. under the offline note): the table
+       pictures get smaller instead of the cards spilling over the title. */
+    grid-template-rows: auto 1fr auto minmax(0, auto) 1.4fr;
     align-items: center;
     gap: var(--space-2) var(--space-3);
   }
@@ -1675,8 +1695,14 @@ img.tile-back {
     justify-self: end;
     width: min(360px, 100%);
   }
-  .lobby .section-title {
+  .lobby-title-row {
     grid-area: title;
+  }
+  .lobby-server-note {
+    flex-basis: auto;
+    margin-bottom: 0;
+  }
+  .lobby .section-title {
     font-size: 1.5rem;
   }
   .rooms {
@@ -1685,11 +1711,14 @@ img.tile-back {
     grid-auto-flow: column;
     gap: var(--space-3);
     /* Room below the cards for their shadow; swipes sideways when the cards do not all fit. */
+    align-self: stretch;
+    min-height: 0;
     padding: var(--space-1) var(--space-1) var(--space-3);
     overflow-x: auto;
     scroll-snap-type: x proximity;
   }
   .rooms li {
+    min-height: 0;
     scroll-snap-align: start;
   }
   .room {
@@ -1701,8 +1730,10 @@ img.tile-back {
     padding: var(--space-3);
   }
   .room-art {
+    --art-h: 120px;
     align-self: center;
-    height: 120px;
+    height: min(var(--art-h), 100%);
+    min-height: 0;
   }
   .room-title {
     font-size: 1.25rem;
@@ -1809,7 +1840,7 @@ img.tile-back {
 /* Tall landscape screens (desktops): bigger room pictures. */
 @media (min-aspect-ratio: 4/3) and (min-width: 560px) and (min-height: 700px) {
   .room-art {
-    height: 190px;
+    --art-h: 190px;
   }
 }
 
@@ -1878,7 +1909,7 @@ img.tile-back {
     font-size: 1.25rem;
   }
   .room-art {
-    height: 110px;
+    --art-h: 110px;
   }
   .room-cta {
     padding: 2px var(--space-3);

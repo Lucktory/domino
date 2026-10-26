@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Toast } from "./components/ui/toast.tsx";
 import { useGameConnection, type Notice } from "./features/connection/index.ts";
 import { LandingScreen } from "./features/landing/index.ts";
-import { LobbyScreen, PrivateRoomScreen, WaitingScreen } from "./features/lobby/index.ts";
+import { LobbyScreen, PrivateRoomScreen, WaitingScreen, type ServerState } from "./features/lobby/index.ts";
+import { buildPracticeTable, usePracticeMatch } from "./features/practice/index.ts";
 import { AccountScreen, clearProfile, readProfile, saveProfile, type Profile } from "./features/profile/index.ts";
 import { TableScreen } from "./features/table/index.ts";
 import { useCopy } from "./lib/i18n/language.tsx";
@@ -18,6 +19,10 @@ export function App() {
   const copy = useCopy();
   const connection = useGameConnection();
   const { status, ready, connectFailed, table, notice, pending } = connection;
+  const practice = usePracticeMatch();
+  // The app never waits for the server: games against the computer need none.
+  const serverState: ServerState =
+    status === "connected" && ready ? "online" : connectFailed || status === "reconnecting" ? "offline" : "connecting";
   const [profile, setProfile] = useState<Profile | null>(readProfile);
   const [route, setRoute] = useState<Route>(() => (profile === null ? "landing" : "lobby"));
 
@@ -53,14 +58,39 @@ export function App() {
           }}
         />
       );
-  } else if (!ready) {
+  } else if (practice.practice !== null) {
+    const { mode, match } = practice.practice;
+    const names = [profile.nickname, ...Array.from({ length: match.rules.seatCount - 1 }, (_, i) => copy.computerName(i + 1))];
+    const { table: practiceTable, game } = buildPracticeTable(match, mode, names, Date.now());
     screen = (
-      <main className="splash" aria-live="polite">
-        <p>{connectFailed ? copy.connectFailed : copy.connecting}</p>
-      </main>
+      <TableScreen
+        key="practice"
+        table={practiceTable}
+        game={game}
+        pending={false}
+        onAct={(action) => {
+          practice.act(action, game.version);
+        }}
+        onLeave={practice.stop}
+        clockOffset={0}
+        onPlayAgain={() => {
+          practice.start(mode);
+        }}
+      />
     );
   } else if (table !== null && table.game === null) {
-    screen = <WaitingScreen table={table} pending={pending} onCancel={leaveTable} />;
+    screen = (
+      <WaitingScreen
+        table={table}
+        pending={pending}
+        onCancel={leaveTable}
+        onPlayComputer={() => {
+          const { mode } = table;
+          connection.leaveTable();
+          practice.start(mode);
+        }}
+      />
+    );
   } else if (table !== null && table.game !== null) {
     screen = (
       <TableScreen
@@ -95,9 +125,11 @@ export function App() {
       <LobbyScreen
         nickname={profile.nickname}
         pending={pending}
+        serverState={serverState}
         onQuickMatch={(mode) => {
           connection.quickMatch(profile.nickname, mode);
         }}
+        onComputer={practice.start}
         onPrivate={() => {
           setRoute("private");
         }}
@@ -112,7 +144,7 @@ export function App() {
 
   return (
     <>
-      {profile !== null && ready && status === "reconnecting" && (
+      {profile !== null && ready && status === "reconnecting" && practice.practice === null && (
         <div className="banner" role="status">
           {copy.reconnecting}
         </div>

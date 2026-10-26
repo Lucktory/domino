@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cryptoRng } from "../../lib/crypto-rng.ts";
 import type { Table } from "./table.ts";
 import { createTurnClock } from "./turn-clock.ts";
-import { DEMO_RULES_BY_MODE } from "./demo-rules.ts";
+import { DEMO_RULES_BY_MODE } from "@dominio/protocol";
 
 const DEMO_RULES = DEMO_RULES_BY_MODE["1v1"];
 

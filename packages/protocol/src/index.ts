@@ -9,6 +9,7 @@ export {
   TABLE_CODE_LENGTH,
 } from "./client-events.ts";
 export type { GameMode } from "./client-events.ts";
+export { DEMO_RULES_BY_MODE } from "./mode-rules.ts";
 export type {
   Ack,
   ClientToServerEvents,

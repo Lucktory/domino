@@ -1,14 +1,21 @@
 import type { GameMode } from "@dominio/protocol";
+import { useState } from "react";
 import { images } from "../../assets/index.ts";
 import { Avatar } from "../../components/ui/avatar.tsx";
 import { LanguageToggle } from "../../components/ui/language-toggle.tsx";
 import { useCopy } from "../../lib/i18n/language.tsx";
 import type { Messages } from "../../lib/i18n/messages-es.ts";
 
+/** online: connected to the game server. connecting: first attempt still running. offline: it failed or dropped. */
+export type ServerState = "online" | "connecting" | "offline";
+
 interface LobbyScreenProps {
   readonly nickname: string;
   readonly pending: boolean;
+  readonly serverState: ServerState;
   readonly onQuickMatch: (mode: GameMode) => void;
+  /** Starts a game against the computer in this mode; works without the server. */
+  readonly onComputer: (mode: GameMode) => void;
   readonly onPrivate: () => void;
   readonly onSignOut: () => void;
 }
@@ -43,17 +50,21 @@ function Chevron() {
   );
 }
 
-export function LobbyScreen({ nickname, pending, onQuickMatch, onPrivate, onSignOut }: LobbyScreenProps) {
+export function LobbyScreen({ nickname, pending, serverState, onQuickMatch, onComputer, onPrivate, onSignOut }: LobbyScreenProps) {
   const copy = useCopy();
+  const [opponent, setOpponent] = useState<"online" | "computer">("online");
+  // Without the server only the computer is available; online play comes back on its own when it returns.
+  const computer = serverState !== "online" || opponent === "computer";
   // 1 vs 1 is the highlighted room (.room-live).
   const quickRoom = (room: QuickRoom) => (
     <li key={room.mode}>
       <button
         type="button"
         className={`room room-mode-${room.mode} ${room.mode === "1v1" ? "room-live" : ""}`}
-        disabled={pending}
+        disabled={pending && !computer}
         onClick={() => {
-          onQuickMatch(room.mode);
+          if (computer) onComputer(room.mode);
+          else onQuickMatch(room.mode);
         }}
       >
         <RoomArt src={room.art} />
@@ -85,20 +96,53 @@ export function LobbyScreen({ nickname, pending, onQuickMatch, onPrivate, onSign
         </button>
       </div>
 
-      <h1 className="section-title">{copy.chooseRoom}</h1>
+      <div className="lobby-title-row">
+        <h1 className="section-title">{copy.chooseRoom}</h1>
+        <div className="opponent-toggle" role="group" aria-label={copy.opponentLabel}>
+          <button
+            type="button"
+            className="opponent-option"
+            aria-pressed={!computer}
+            disabled={serverState !== "online"}
+            onClick={() => {
+              setOpponent("online");
+            }}
+          >
+            {copy.opponentOnline}
+          </button>
+          <button
+            type="button"
+            className="opponent-option"
+            aria-pressed={computer}
+            onClick={() => {
+              setOpponent("computer");
+            }}
+          >
+            {copy.opponentComputer}
+          </button>
+        </div>
+        {serverState !== "online" && (
+          <p className="lobby-server-note" role="status">
+            {serverState === "connecting" ? copy.connecting : copy.serverOffline}
+          </p>
+        )}
+      </div>
 
       <ul className="rooms">
         {QUICK_ROOMS.slice(0, 1).map(quickRoom)}
-        <li>
-          <button type="button" className="room" disabled={pending} onClick={onPrivate}>
-            <RoomArt src={images.room.private} />
-            <span className="room-text">
-              <span className="room-title">{copy.roomPrivate}</span>
-              <span className="room-detail">{copy.roomPrivateDetail}</span>
-            </span>
-            <Chevron />
-          </button>
-        </li>
+        {/* A private table needs the server and a friend: online only. */}
+        {!computer && (
+          <li>
+            <button type="button" className="room" disabled={pending} onClick={onPrivate}>
+              <RoomArt src={images.room.private} />
+              <span className="room-text">
+                <span className="room-title">{copy.roomPrivate}</span>
+                <span className="room-detail">{copy.roomPrivateDetail}</span>
+              </span>
+              <Chevron />
+            </button>
+          </li>
+        )}
         {QUICK_ROOMS.slice(1).map(quickRoom)}
       </ul>
     </main>

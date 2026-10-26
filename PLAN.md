@@ -173,3 +173,14 @@ Never pushes when main has other unpushed commits or is not the current branch.
 - [x] scripts/host.mjs + `pnpm host`
 - [x] test: tunnel + health check against a test server; commit/push logic in a throwaway clone (no GitHub)
 - [x] pnpm check; commit
+
+## Phase 12: play against the computer (approved 2026-10-26)
+Practice games run entirely in the browser (same engine), so they work when the server is down. Computer players
+are labelled, see only their own seat's view, move after ~1 s; no turn timer; never connected to money.
+- [x] engine: bot.ts chooseBotAction(view) (forced opening, doubles first, heaviest, else draw, else pass); tests incl.
+      bot-only full games always finish
+- [x] protocol: mode rules move from server demo-rules.ts to protocol (one copy for server and browser)
+- [x] web: browser rng; features/practice (local match hook, bot turns, table view); TableScreen reused
+- [x] web: lobby never blocked by the connection; offline banner; "En linea | Contra la computadora" switch
+      (only the computer while the server is unreachable); waiting screen: button after 15 s
+- [x] copy ES/EN; QA server off (every mode) / server on (waiting button) / online regression; pnpm check; commit

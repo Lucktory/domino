@@ -44,6 +44,10 @@ export const messagesEs = {
   hello: (name: string) => `Hola, ${name}`,
   signOut: "Cerrar sesi\u00f3n",
   chooseRoom: "Elige tu mesa",
+  opponentLabel: "Contra qui\u00e9n juegas",
+  opponentOnline: "En l\u00ednea",
+  opponentComputer: "Contra la computadora",
+  serverOffline: "Sin conexi\u00f3n con el servidor: juega contra la computadora mientras tanto.",
   room1v1: "1 vs 1",
   room1v1Detail: "Mano a mano contra otro jugador.",
   room2v2: "2 vs 2",
@@ -67,6 +71,9 @@ export const messagesEs = {
   // Waiting
   searchingTitle: "Buscando rival\u2026",
   searchingDetail: "Te sentamos con el primer jugador disponible.",
+  nobodyYet: "Nadie disponible todav\u00eda. Puedes seguir esperando o jugar contra la computadora.",
+  playComputer: "Jugar contra la computadora",
+  computerName: (n: number) => `CPU ${n}`,
   searchingPlayersTitle: "Buscando jugadores\u2026",
   playersFound: (found: number, total: number) => `${found} de ${total} jugadores en la mesa.`,
   waitingTitle: "Esperando a tu amigo",
@@ -154,7 +161,6 @@ export const messagesEs = {
 
   // Connection and errors
   connecting: "Conectando\u2026",
-  connectFailed: "No pudimos conectar con el servidor. Seguimos intentando\u2026",
   reconnecting: "Sin conexi\u00f3n. Reconectando\u2026",
   tableGone: "Esa mesa ya no existe. Volviste al lobby.",
   connectionFailed: "No se pudo contactar el servidor. Intenta de nuevo.",

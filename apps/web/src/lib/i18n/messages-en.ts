@@ -40,6 +40,10 @@ export const messagesEn: Messages = {
   hello: (name: string) => `Hi, ${name}`,
   signOut: "Sign out",
   chooseRoom: "Choose your table",
+  opponentLabel: "Who you play against",
+  opponentOnline: "Online",
+  opponentComputer: "Vs computer",
+  serverOffline: "No connection to the server: play against the computer meanwhile.",
   room1v1: "1 vs 1",
   room1v1Detail: "Head to head against another player.",
   room2v2: "2 vs 2",
@@ -63,6 +67,9 @@ export const messagesEn: Messages = {
   // Waiting
   searchingTitle: "Finding an opponent\u2026",
   searchingDetail: "We seat you with the first player available.",
+  nobodyYet: "Nobody available yet. Keep waiting or play against the computer.",
+  playComputer: "Play against the computer",
+  computerName: (n: number) => `CPU ${n}`,
   searchingPlayersTitle: "Searching for players\u2026",
   playersFound: (found: number, total: number) => `${found} of ${total} players at the table.`,
   waitingTitle: "Waiting for your friend",
@@ -150,7 +157,6 @@ export const messagesEn: Messages = {
 
   // Connection and errors
   connecting: "Connecting\u2026",
-  connectFailed: "We could not reach the server. Still trying\u2026",
   reconnecting: "No connection. Reconnecting\u2026",
   tableGone: "That table no longer exists. You are back in the lobby.",
   connectionFailed: "Could not reach the server. Try again.",

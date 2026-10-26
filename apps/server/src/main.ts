@@ -1,5 +1,5 @@
 import { createApp } from "./app.ts";
-import { DEMO_RULES_BY_MODE } from "./features/tables/index.ts";
+import { DEMO_RULES_BY_MODE } from "@dominio/protocol";
 import { loadEnv } from "./lib/env.ts";
 import { createLogger } from "./lib/logger.ts";
 

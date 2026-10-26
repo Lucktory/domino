@@ -3,7 +3,7 @@ import type { ClientToServerEvents, ServerToClientEvents, SessionInfo, TableView
 import { io as connectClient, type Socket } from "socket.io-client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { createApp } from "./app.ts";
-import { DEMO_RULES_BY_MODE } from "./features/tables/index.ts";
+import { DEMO_RULES_BY_MODE } from "@dominio/protocol";
 import type { Logger } from "./lib/logger.ts";
 
 type ClientSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
